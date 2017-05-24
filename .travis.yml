@@ -5,7 +5,6 @@ before_script:
   - npm install
 script:
   - webpack --config webpack.config.dev.js
-deploy:
-  provider: surge
-  project: ./dist/
-  myDomain: abhiesa1.surge.sh
+after_success:
+  - surge --project ./dist --abhiesa1.surge.sh
+
