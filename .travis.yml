@@ -8,5 +8,5 @@ install:
 script:
   - webpack --config webpack.config.dev.js
 after_success:
-  - surge --project ./dist ----domain abhiesa1.surge.sh
+  - surge --project ./dist --domain abhiesa1.surge.sh
 
