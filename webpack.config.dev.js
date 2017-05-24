@@ -1,0 +1,144 @@
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+//const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
+//const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+
+const extractSass = new ExtractTextPlugin({
+    filename: "[name].css",
+    disable: process.env.NODE_ENV !== "production"
+});
+
+module.exports = {
+  devtool: 'cheap-eval-source-map',
+  entry: {
+    'polyfills': './app/polyfills.ts',
+    'vendor': './app/vendor.ts',
+    'app': './app/index.ts' // our angular app
+  },
+  resolve: {
+    extensions: [".ts", ".js",".html",".json",".css",".scss"]
+  },
+  output: {
+    //filename: '[name].[chunkhash].js',
+    filename: '[name].js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  	/*new webpack.optimize.UglifyJsPlugin({
+      compress: process.env.NODE_ENV === 'production',
+  		compressor: {
+        warnings: false,
+      },
+      sourceMap: true,
+  	}),*/
+  	new webpack.optimize.OccurrenceOrderPlugin(),
+  	new HtmlWebpackPlugin({
+      template: './template/index.html'
+    }),
+    new ExtractTextPlugin("style.css"),
+    new CopyWebpackPlugin([{ from: 'assets', to: 'assets' },]),
+    new webpack.ProvidePlugin({
+      jQuery: 'jquery',
+      $: 'jquery',
+      jquery: 'jquery'
+    })
+    /*new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor' // Specify the common bundle's name.
+    }),
+    extractSass
+    //new CheckerPlugin()
+    ,
+    new webpack.LoaderOptionsPlugin({
+        options: {
+            tslint: {
+                emitErrors: true,
+                failOnHint: true,
+                configuration: require('./tslint.json')
+            }
+        }
+    })
+    */
+  ],
+  module: {
+    rules: [
+      {
+          test: /\.js$/,
+          use: ["source-map-loader"],
+          enforce: "pre",
+          exclude: "/node_modules/"
+      },
+      {
+        enforce: 'pre',
+        test: /\.tsx?$/,
+        use: "source-map-loader",
+        exclude: "/node_modules/"
+      },
+
+      {
+        test: /\.ts$/,
+        use: 'awesome-typescript-loader',
+        exclude: "/node_modules/"
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 3,
+              sourceMap: true,
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [ require('autoprefixer')({ browsers: 'last 2 versions' }) ],
+              sourceMap: true,
+            }
+          }]
+        })
+      },
+
+      {
+            test: /\.scss$/,
+            use: extractSass.extract({
+                use: [{
+                    loader: "css-loader", options: {
+                    sourceMap: true
+                }
+                }, {
+                    loader: "sass-loader", options: {
+                    sourceMap: true
+                }
+                }],
+                // use style-loader in development
+                fallback: "style-loader"
+            })
+      },
+      /**
+      * File loader for supporting images, for example, in CSS files.
+      */
+      {
+        test: /\.(jpg|png|gif)$/,
+        use: 'file-loader'
+      },
+      /* File loader for supporting fonts, for example, in CSS files.
+      */
+      {
+        test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
+        use: 'file-loader'
+      }
+    ]
+  },
+  devServer: {
+    contentBase: './dist',
+    hot: true
+  }
+};

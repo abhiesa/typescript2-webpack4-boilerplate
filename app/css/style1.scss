@@ -1,0 +1,30 @@
+@import '../../node_modules/bootstrap/scss/bootstrap.scss';
+
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+h1 {
+  color: rgb(114, 191, 190);
+  text-align: center;
+}
+
+#color1 {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  color: rgb(114, 191, 190);
+}
+
+button {
+  cursor: pointer;
+  display: block;
+  width: 100px;
+  outline: 0;
+  border: 0;
+  margin: 20px auto;
+}
