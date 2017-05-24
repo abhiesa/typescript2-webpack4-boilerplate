@@ -7,7 +7,7 @@ var styles = require('./css/style1.scss') ;
 
 function component () {
   document.getElementById("header").innerHTML =
-    _.join([person.firstName, person.lastName], ' ');
+    _.join([person.firstName, person.lastName, '!!!'], ' ');
 
   document.getElementById("color1").innerHTML =moment().format('MMMM Do YYYY, h:mm:ss a');
 

@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - "6"
-before_script:
+before_install:
+  - stty columns 120
+install:
   - npm install
 script:
   - webpack --config webpack.config.dev.js
