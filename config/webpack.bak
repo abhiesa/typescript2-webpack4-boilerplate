@@ -1,4 +1,5 @@
 const path = require('path');
+var helpers = require('./helper');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -12,7 +13,7 @@ const extractSass = new ExtractTextPlugin({
 });
 
 module.exports = {
-  devtool: 'cheap-eval-source-map',
+  //devtool: 'cheap-eval-source-map', --dev
   entry: {
     'polyfills': './app/polyfills.ts',
     'vendor': './app/vendor.ts',
