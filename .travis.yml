@@ -6,7 +6,7 @@ before_install:
 install:
   - npm install
 script:
-  - webpack --config webpack.config.dev.js
+  - webpack --config config/webpack.prod.js
 after_success:
   - surge --project ./dist --domain abhiesa1.surge.sh
 
