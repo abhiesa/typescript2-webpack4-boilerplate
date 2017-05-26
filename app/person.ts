@@ -1,5 +1,5 @@
 export let person = {
-  firstName: 'Abhishek',
+  firstName: 'Prashant',
   lastName: 'Pandey'
 };
 
